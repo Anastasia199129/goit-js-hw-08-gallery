@@ -97,7 +97,7 @@ function onImgClick(evt){
 if(!evt.target.classList.contains('gallery__image')) {
        return 
     }
-// evt.target.
+
 }
 
  
