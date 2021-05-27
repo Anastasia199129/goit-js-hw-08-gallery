@@ -64,12 +64,17 @@
     },
   ];
 
-  const  galleryUl = document.querySelector('.js-gallery')
-  const a = document.querySelector('.gallery__link')
-  const img = document.querySelector('.gallery__image')
+  const galleryUl = document.querySelector('.js-gallery')
+  // const galleryImg = document.querySelector('.gallery__image')
   const modal = document.querySelector('.js-lightbox')
   const modalImg = document.querySelector('.lightbox__image')
   const buttonClose = document.querySelector('[data-action="close-lightbox"]')
+  const overlay = document.querySelector('.lightbox__overlay')
+  console.log(ovr)
+
+  // const filter = gallery.map(e => e.original)
+  // console.log(filter)
+
 
 
   const galerryMarkup = creategalery(gallery);
@@ -82,24 +87,63 @@
     <a class="gallery__link"
      href="${original}">
      <img class="gallery__image"
-     src="${preview}" alt="${description}">
+     src="${preview}" alt="${description}"
+     data-source ="${original}">
     </a>
   </li>`;
   })
   .join('');
 }
 
+ 
 galleryUl.addEventListener('click', onImgClick)
+buttonClose.addEventListener('click', onModalCloseClick)
+overlay.addEventListener('click', onOverlayClick)
+
 
 function onImgClick(evt){
   evt.preventDefault()
-
 if(!evt.target.classList.contains('gallery__image')) {
        return 
     }
-
+    const originalPisture = evt.target.dataset.source
+    modalImg.src = originalPisture
+    
+    modal.classList.add('is-open')
+    window.addEventListener('keydown', onEscapeClick)
 }
 
- 
+function onModalCloseClick(evt){
+  modal.classList.remove('is-open')
+  window.removeEventListener('keydown', onEscapeClick)
+}
 
 
+function onEscapeClick(e) {
+  if(e.code === 'Escape'){
+    onModalCloseClick()
+  }
+}
+
+function onOverlayClick(){
+  onModalCloseClick()
+}
+
+
+// document.addEventListener('keydown', hhjjj)
+
+// function hhjjj(e){
+//   let newIndex;
+//   const curentTd = filter.indexOf(modalImg.src)
+//   if(e.key === 'ArrwLeft') {
+//       newIndex = curentTd -1;
+//       if(newIndex === -1){
+//         newIndex = filter.length -1
+//       } else if (e.key === 'ArrwRight'){
+//         newIndex = curentTd +1;
+//         if(newIndex === (filter.length))
+//           newIndex = 0 
+//       }
+//     }
+//     modalImg.src = filter[curentTd]
+// }
