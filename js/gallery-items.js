@@ -7,7 +7,6 @@
   const buttonClose = document.querySelector('[data-action="close-lightbox"]')
   const overlay = document.querySelector('.lightbox__overlay')
   const ArrayOriginalImgSrc = gallery.map(e => e.original)
-  
   const galerryMarkup = creategalery(gallery);
   galleryUl.insertAdjacentHTML('beforeend', galerryMarkup);
 
@@ -32,14 +31,6 @@ buttonClose.addEventListener('click', onModalCloseClick)
 overlay.addEventListener('click', onOverlayClick)
 
 
-
-function onEscapeKeyDown(e) {
-  console.log(e.code)
-  if(e.code === 'Escape'){
-    onModalCloseClick()
-  }
-}
-
 function onImgClick(evt){
   evt.preventDefault()
 if(!evt.target.classList.contains('gallery__image')) {
@@ -55,11 +46,20 @@ if(!evt.target.classList.contains('gallery__image')) {
 function onModalCloseClick(evt){
   modal.classList.remove('is-open')
   window.removeEventListener('keydown', onEscapeKeyDown)
+  modalImg.src = ''
 }
 
 function onOverlayClick(){
   onModalCloseClick()
 }
+
+function onEscapeKeyDown(e) {
+  console.log(e.code)
+  if(e.code === 'Escape'){
+    onModalCloseClick()
+  }
+}
+
 
 
 
@@ -77,7 +77,6 @@ function onArrowLeftArrowRightClick(e){
       newIndex = curentTd +1;
       if(newIndex === ArrayOriginalImgSrc.length) {
         newIndex = 0 }
-    }
-    console.log(modalImg)
+    } else return
     modalImg.src = ArrayOriginalImgSrc[newIndex]
 }
