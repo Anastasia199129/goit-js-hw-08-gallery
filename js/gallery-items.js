@@ -70,11 +70,10 @@
   const modalImg = document.querySelector('.lightbox__image')
   const buttonClose = document.querySelector('[data-action="close-lightbox"]')
   const overlay = document.querySelector('.lightbox__overlay')
-  console.log(ovr)
 
-  // const filter = gallery.map(e => e.original)
-  // console.log(filter)
 
+  const ArrayOriginalImgSrc = gallery.map(e => e.original)
+  
 
 
   const galerryMarkup = creategalery(gallery);
@@ -101,16 +100,17 @@ buttonClose.addEventListener('click', onModalCloseClick)
 overlay.addEventListener('click', onOverlayClick)
 
 
+
 function onImgClick(evt){
   evt.preventDefault()
 if(!evt.target.classList.contains('gallery__image')) {
        return 
     }
-    const originalPisture = evt.target.dataset.source
-    modalImg.src = originalPisture
-    
     modal.classList.add('is-open')
     window.addEventListener('keydown', onEscapeClick)
+
+    const originalPisture = evt.target.dataset.source
+    modalImg.src = originalPisture
 }
 
 function onModalCloseClick(evt){
@@ -118,6 +118,9 @@ function onModalCloseClick(evt){
   window.removeEventListener('keydown', onEscapeClick)
 }
 
+function onOverlayClick(){
+  onModalCloseClick()
+}
 
 function onEscapeClick(e) {
   if(e.code === 'Escape'){
@@ -125,25 +128,22 @@ function onEscapeClick(e) {
   }
 }
 
-function onOverlayClick(){
-  onModalCloseClick()
+
+document.addEventListener('keydown', onArrowLeftArrowRightClick)
+
+function onArrowLeftArrowRightClick(e){
+  let newIndex;
+  const curentTd = ArrayOriginalImgSrc.indexOf(modalImg.src)
+  if(e.key === 'ArrowLeft') {
+      newIndex = curentTd -1;
+      if(newIndex === -1){
+        newIndex = ArrayOriginalImgSrc.length -1
+      }
+    }
+    else if (e.key === 'ArrowRight'){
+      newIndex = curentTd +1;
+      if(newIndex === ArrayOriginalImgSrc.length) 
+        newIndex = 0 
+    }
+    modalImg.src = ArrayOriginalImgSrc[newIndex]
 }
-
-
-// document.addEventListener('keydown', hhjjj)
-
-// function hhjjj(e){
-//   let newIndex;
-//   const curentTd = filter.indexOf(modalImg.src)
-//   if(e.key === 'ArrwLeft') {
-//       newIndex = curentTd -1;
-//       if(newIndex === -1){
-//         newIndex = filter.length -1
-//       } else if (e.key === 'ArrwRight'){
-//         newIndex = curentTd +1;
-//         if(newIndex === (filter.length))
-//           newIndex = 0 
-//       }
-//     }
-//     modalImg.src = filter[curentTd]
-// }
